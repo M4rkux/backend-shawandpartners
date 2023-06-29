@@ -33,3 +33,27 @@ export async function listUsers(req: Request, res: Response) {
   
   res.send(responseData);
 }
+
+export async function getUser(req: Request, res: Response) {
+  const { username } = req.params;
+
+  if (!username) return res.status(500).send('The username is required');
+
+  const response = await octokit.request(`GET /users/{username}`, {
+    username
+  });
+
+  res.send(response.data);
+}
+
+export async function listRepos(req: Request, res: Response) {
+  const { username } = req.params;
+
+  if (!username) return res.status(500).send('The username is required');
+
+  const response = await octokit.request(`GET /users/{username}/repos`, {
+    username
+  });
+
+  res.send(response.data);
+}
