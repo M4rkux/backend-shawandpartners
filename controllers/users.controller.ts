@@ -23,12 +23,12 @@ export async function listUsers(req: Request, res: Response) {
 
   if (isNaN(since)) return res.status(500).send('The param "since" must be a number');
 
-  const response = await octokit.request(`GET /users?since=${since}`);
+  const response = await octokit.request(`GET /users?per_page=10&since=${since}`);
   const nextSince = extractNumber(response.headers.link);
 
   const responseData = {
     list: response.data,
-    next: `/api/users?since=${nextSince}`
+    next: nextSince
   }
   
   res.send(responseData);
